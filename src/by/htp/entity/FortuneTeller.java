@@ -7,10 +7,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
 
 public class FortuneTeller {
@@ -30,42 +33,77 @@ public class FortuneTeller {
 	- предсказатель имеет возможность удалять клиента из списка ожидания.
 */
 // объявляем pred - набор гаданий и набор ответов для каждого гадания
-private LinkedHashMap<Prediction, Queue<Answer>> pred;
+private LinkedHashMap<Prediction, List<Answer>> pred;
 // объявляем queQlients - очередь клиентов
-private PriorityQueue<Client> queClients;
+private PriorityQueue<Client> journal;
 private ArrayList<Client> waitList;
 private HashMap<Date, Client> accounting;
 
-//конструктор
+//конструкторList
 public FortuneTeller() {
-	pred = new LinkedHashMap<Prediction, Queue<Answer>>();
-	queClients = new PriorityQueue<Client>();
+	
+	pred = new PredictionStore().getPredictions();
+	journal = new PriorityQueue<Client>();
 	waitList = new ArrayList<Client>();
 	accounting = new HashMap<Date, Client>();
 	
 	
 }
 
-//добавлять клиентов в очередь
-public void getInQue(Client client) {
-	queClients.add(client);
+//список доступных предсказаний;
+public void displayPredictions() {
+	Iterator<Prediction> itr = pred.keySet().iterator();
+	System.out.println("Введите категорию для гаданий");
+	int index = 1;
+	while(itr.hasNext()) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(index).append(". ").append(itr.next().getTitle());
+				
+		index++;
+		System.out.println(sb.toString());
+	}
+	chosePrediction();
 }
+//Ввести с клавиатуры предсказание
+public void chosePrediction() {
+	Scanner sc = new Scanner(System.in);
+	String scan = sc.nextLine();
+	this.displayPrediction(scan);
+	}
+
+//метод который выбирает из трех ансверов рандомно один
+public Answer choseRandomAnswer(List<Answer> answers) {
+	int index = new Random().nextInt(answers.size());
+	return answers.get(index);
+		
+}
+
+//отобразить ответ
+public void displayAnswer(Answer answer) {
+	System.out.println(answer.answer);
+}
+
+//отобразить конкретный prediction
+public void displayPrediction(Prediction prediction) {
+	List<Answer> list = this.pred.get(prediction);
+	Answer answer = this.choseRandomAnswer(list);
+	displayAnswer(answer);
+}
+
+public void displayPrediction(String predictionName) {
+	displayPrediction(new Prediction(predictionName));
+}
+
+
+
 public void displayClientsInQueue() {
-	Iterator itr = queClients.iterator();
+	Iterator itr = journal.iterator();
 	while(itr.hasNext()) {
 		System.out.println(itr.next());
 	}
 }
 
-//клиент может просмотреть список доступных предсказаний;
-public void displayPredictions() {
-	Iterator<Prediction> itr = pred.keySet().iterator();
-	while(itr.hasNext()) {
-		System.out.println("fsdfs");
-		System.out.println(itr.next().toString());
-	}
-	
-}
+
 
 //клиент попадает в лист ожидания; 
 public void addWaitList(Client client) {

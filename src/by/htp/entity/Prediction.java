@@ -2,36 +2,22 @@ package by.htp.entity;
 
 public class Prediction {
 	
-	private String predictions;
+	private String title;
 
-	public String getPredictions() {
-		return predictions;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setPredictions(String predictions) {
-		this.predictions = predictions;
-	}
-
-	public Prediction(String predictions) {
+	public Prediction(String title) {
 		super();
-		this.predictions = predictions;
-	}
-///////////////// подумать
-	@Override
-	public String toString() {
-		return "Prediction [predictions=" + predictions + "]";
-	}
-
-	public Prediction() {
-		super();
-		// TODO Auto-generated constructor stub
+		this.title = title;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((predictions == null) ? 0 : predictions.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
 
@@ -44,14 +30,16 @@ public class Prediction {
 		if (getClass() != obj.getClass())
 			return false;
 		Prediction other = (Prediction) obj;
-		if (predictions == null) {
-			if (other.predictions != null)
+		if (title == null) {
+			if (other.title != null)
 				return false;
-		} else if (!predictions.equals(other.predictions))
+		} else if (!title.equals(other.title))
 			return false;
 		return true;
 	}
+	
 
+	
 	
 
 }
