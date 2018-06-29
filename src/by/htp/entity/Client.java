@@ -17,6 +17,10 @@ public void addPredictionResult(Prediction prediction, Answer answer) {
 	
 }
 
+public String getNameClient() {
+	return nameClient;
+}
+
 public Client(String nameClient) {
 	super();
 	this.nameClient = nameClient;
